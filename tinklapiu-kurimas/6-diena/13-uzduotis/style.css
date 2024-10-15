@@ -21,12 +21,16 @@
 }
 .grid-container3 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 80px;
+    grid-template-columns: 1fr 1fr;
+    padding: 50px;
     font-size: 20px;
 }
-.img1 {
+.img1, .img-grid3 {
     width: 100%;
+}
+.img-grid3 {
+    object-fit: cover;
+    height: 100%;
 }
 .img2 {
     width: 82%;
@@ -47,6 +51,9 @@ h1 {
 .bord {
     width: 82%;
     background-color: rgb(244, 244, 244)
+}
+.puppy {
+    border-radius: 8px;
 }
 /* .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);

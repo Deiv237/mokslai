@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+nav {
+  display: flex;
+  align-items: center;
+  background-color: grey;
+}
+.logo {
+  border-radius: 100px;
+  width: 6%;
+  border: 2px solid black;
+}
+.nav-links {
+  margin-left: 20px;
+}
+.green-border {
+  position: absolute;
+  margin-top: 10vh;
+  margin-left: 20vh;
+  width: 80vw;
+  height: 30vw;
+  border: 6px solid green;
+  text-align: center;
+  border-style: dotted;
+}
+.image-scale {
+    position: relative;
+    width: 12%;
+    margin-left: 20vw;
+}
+li {
+  display: inline-block;
+}
+.image-scale-cat {
+    position: relative;
+    width: 12%;
+    margin-left: 30vw;
+    margin-bottom: 34vw;
+}

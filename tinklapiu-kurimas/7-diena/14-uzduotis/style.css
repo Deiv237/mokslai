@@ -13,29 +13,31 @@ nav {
   border: 2px solid black;
 }
 .nav-links {
-  margin-left: 20px;
+  left: 20px;
 }
 .green-border {
-  position: absolute;
-  margin-top: 10vh;
-  margin-left: 20vh;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 50px;
   width: 80vw;
   height: 30vw;
   border: 6px solid green;
-  text-align: center;
   border-style: dotted;
 }
 .image-scale {
-    position: relative;
+    position: absolute;
     width: 12%;
-    margin-left: 20vw;
+    bottom: 0;
+    right: 0;
+    right: 15vw;
+    bottom: -5vw;
 }
 li {
   display: inline-block;
 }
 .image-scale-cat {
-    position: relative;
+    position: absolute;
     width: 12%;
-    margin-left: 30vw;
-    margin-bottom: 34vw;
+    left: 15vw;
+    top: -5vw;
 }

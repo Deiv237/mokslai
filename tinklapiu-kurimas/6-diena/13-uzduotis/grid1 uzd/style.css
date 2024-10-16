@@ -1,0 +1,17 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 80px;
+    font-size: 20px;
+}
+.img1 {
+    width: 100%;
+}
+p {
+    margin: 10px;
+}
+h1 {
+    height: auto;
+    font-size: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

@@ -1,0 +1,26 @@
+.grid-container2 {
+    display: grid;
+    background-color: antiquewhite;
+    grid-template-columns: 2fr 2fr 2fr;
+    padding: 80px;
+    clear: both;
+    text-align: center;
+}
+.img2 {
+    width: 82%;
+    background-color: antiquewhite
+}
+p {
+    margin: 10px;
+}
+img {
+    width: 140%;
+    margin: -5.3px;
+}
+.bord {
+    width: 82%;
+    background-color: rgb(244, 244, 244)
+}
+.puppy {
+    border-radius: 8px;
+}

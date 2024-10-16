@@ -3,8 +3,27 @@
     padding: 0;
 }
 nav {
+    position: relative;
     text-align: center;
+    border: 2px solid #000000;
+    margin: 0 auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    /* border-radius: 100px;
+    border-width: 3px; */
 }
-li {
-    display: inline-block;
+
+.count {
+    position: absolute;
+    width: 2.4%;
+    left: 0;
+    left: 42%;
+    bottom: 0;
+
+}
+.Cart {
+    position: absolute;
+    left: 0;
+    left: 43%;
+    bottom: 0;
 }

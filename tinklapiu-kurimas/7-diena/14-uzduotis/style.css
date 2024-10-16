@@ -29,8 +29,8 @@ nav {
     width: 12%;
     bottom: 0;
     right: 0;
-    right: 15vw;
-    bottom: -5vw;
+    right: 15%;
+    bottom: -15%;
 }
 li {
   display: inline-block;
@@ -38,6 +38,6 @@ li {
 .image-scale-cat {
     position: absolute;
     width: 12%;
-    left: 15vw;
-    top: -5vw;
+    left: 15%;
+    top: -20%;
 }

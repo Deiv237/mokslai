@@ -1,0 +1,26 @@
+* {
+    margin: 2%;
+    padding: 0;
+}
+.item1 { grid-area: One; }
+.item2 { grid-area: Two; }
+.item3 { grid-area: Three; }
+.item4 { grid-area: Four; }
+.item5 { grid-area: Five; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 
+  'One Two Three';
+  text-align: center;
+}
+p {
+  font-size: 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+h1 {
+  font-size: 40px;
+}
+h2 {
+  text-align: left;
+}

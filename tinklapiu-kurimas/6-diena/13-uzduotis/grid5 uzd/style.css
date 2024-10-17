@@ -4,15 +4,14 @@
 }
 .item1 { grid-area: One; }
 .item2 { grid-area: Two; }
-.item3 { grid-area: Three; }
-.item4 { grid-area: Four; }
-.item5 { grid-area: Five; }
-
 .grid-container {
   display: grid;
   grid-template-areas: 
-  'One Two Three';
+  'One Two';
   text-align: center;
+  padding: 2%;
+  margin-left: 20%;
+  margin-right: 30%;
 }
 p {
   font-size: 20px;
@@ -23,4 +22,8 @@ h1 {
 }
 h2 {
   text-align: left;
+}
+img {
+  width: 50vh;
+  height: 46vh;
 }

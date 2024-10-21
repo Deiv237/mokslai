@@ -19,7 +19,7 @@
   grid-area: Five;
 }
 @media screen and (min-width: 768px) {
-  main {
+  section {
     display: grid;
     grid-template-areas: "One Two Three Four Five";
   }
@@ -43,8 +43,8 @@ header h1 {
     color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-img {
-  width: 50%;
+article figure img {
+  width: 100%;
 }
 main h2 {
   text-align: center;
@@ -62,8 +62,8 @@ nav h2 {
   font-optical-sizing: auto;
 }
 main article {
-    margin-left: auto;
-    width: 60vw;
+    width: 18vw;
+    margin-left: 10%;
 }
 main ul li {
     list-style-type: none;

@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.item1 {
+  grid-area: One;
+}
+.item2 {
+  grid-area: Two;
+}
+.item3 {
+  grid-area: Three;
+}
+.item4 {
+  grid-area: Four;
+}
+.item5 {
+  grid-area: Five;
+}
+@media screen and (min-width: 768px) {
+  main {
+    display: grid;
+    grid-template-areas: "One Two Three Four Five";
+  }
+}
+nav ul li {
+  display: inline-block;
+  margin-left: 10%;
+  padding: 0.5%;
+  color: white;
+  
+}
+nav ul {
+    background-color: blueviolet;
+}
+header h1 {
+    background-image: url(images/golden-retriever-puppy.jpg);
+    background-size: 100%;
+    text-align: center;
+    font-size: 2.5rem;
+    padding: 18%;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+img {
+  width: 50%;
+}
+main h2 {
+  text-align: center;
+  color: blueviolet;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: auto;
+  font-size: 1.8rem;
+}
+nav h2 {
+  text-align: left;
+  padding-left: 2%;
+  color: blueviolet;
+  font-size: 2.3rem;
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+}
+main article {
+    margin-left: auto;
+    width: 60vw;
+}
+main ul li {
+    list-style-type: none;
+    font-size: 1rem;
+}

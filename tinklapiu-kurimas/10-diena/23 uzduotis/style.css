@@ -1,0 +1,36 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+header {
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    background-color: #bfc42f;
+    text-align: center;
+    width: 100%;
+}
+.toleft {
+        float: left;
+        margin-right: 20px;
+        width: 30%;
+}
+.toright {
+    float: right;
+  margin-left: 20px;
+  width: 30%;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    background-color: #bfc42f;
+    width: 100%;
+    font-size: 1.3rem;
+}
+.content p {
+    margin-bottom: 20px;
+    text-align: justify;
+    font-size: 1rem;
+  }

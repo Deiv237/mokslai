@@ -1,0 +1,177 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.item1 {
+  grid-area: One;
+}
+.item2 {
+  grid-area: Two;
+}
+.item3 {
+  grid-area: Three;
+}
+.item4 {
+    grid-area: Four;
+  }
+.item5 {
+    grid-area: Five;
+}
+.item6 {
+    grid-area: Six;
+}
+.grid-header {
+    grid-area: header;
+}
+.grid-nav {
+    grid-area: nav;
+}
+.grid1-article {
+    grid-area: article1;
+}
+.grid-section1 {
+    grid-area: section1;
+}
+.grid2-article {
+    grid-area: article2;
+}
+.grid-footer {
+    grid-area: footer;
+}
+.grid-main {
+    grid-area: main;
+}
+div .second-section {
+    grid-area: div;
+}
+@media screen and (min-width: 768px) {
+    body {
+        display: grid;
+        grid-template-areas: 
+        'header nav'
+        'main nav'
+        'footer nav';
+      }
+      /* main {
+        display: grid;
+        grid-template-areas:
+        '';
+      } */
+    /* body {
+        display: grid;
+        grid-template-areas: 
+        'nav header header'
+        'nav article1 article1'
+        'nav section1 section1'
+        'nav article2'
+      } */
+    article {
+        display: grid;
+        grid-template-areas: 
+        'One Two'
+        'Three Four'
+        'Five Six';
+      }
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+nav h2 {
+    margin-top: 3%;
+    font-size: 1.3rem;
+    color: grey;
+}
+nav button {
+    background-color: white;
+    border: none;
+}
+nav button:hover {
+    background-color: lightblue;
+}
+nav button img {
+    width: 80%;
+}
+figure img {
+    width: 90%;
+    margin: 5%;
+}
+figcaption {
+    margin-left: 5%;
+    margin-top: -4%;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+}
+main hr {
+    margin-top: 7%;
+}
+section {
+    display: flex;
+    justify-content: start;
+}
+section button {
+    width: 3%;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    border: 1px solid black;
+    background-color: white;
+    margin-top: 2%;
+    margin-left: 5%;
+}
+section button:hover {
+    background-color: rgb(177, 174, 174);
+}
+section img {
+    width: 80%;
+}
+.margin-hr {
+    margin-top: 4%;
+}
+article button {
+    text-align: center;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 20%;
+    width: 20%;
+}
+article button:hover {
+    background-color: rgb(177, 174, 174);
+}
+article button img {
+    width: 15%;
+}
+.about-hideo {
+    display: flex;
+    flex-direction: column;
+    
+
+}
+h3 {
+    margin-bottom: 20%;
+    font-size: 3rem;
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: 5%;
+}
+article p {
+    font-size: 1.4rem;
+    margin-bottom: 2%;
+    margin-left: 5%;
+}
+article .second-section {
+    display: flex;
+    justify-content: space-around;
+}
+footer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 1.2rem;
+}
+footer h5 {
+    color: grey;
+}
+.underline {
+    text-decoration: underline;
+}

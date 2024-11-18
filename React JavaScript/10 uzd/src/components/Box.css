@@ -1,0 +1,7 @@
+.Box {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+    /* border: 40px solid black; */
+}

@@ -1,0 +1,21 @@
+[ { 
+    "id": "1",
+    "title": "Aš mokausi HTML",
+    "content": "OK",
+    "img": "src/images/First-image.png",
+    "status": false
+},
+{
+    "id": "2",
+    "title": "Aš mokausi CSS",
+    "content": "OK",
+    "img": "src/images/Second-image.png",
+    "status": false
+},
+{
+    "id": "3",
+    "title": "Aš mokausi JavaSript",
+    "content": "OK",
+    "img": "src/images/Third-image.png",
+    "status": false
+}  ]

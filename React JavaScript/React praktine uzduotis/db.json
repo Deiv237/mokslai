@@ -1,0 +1,29 @@
+{
+  "books": [
+    {
+      "reserved": false,
+      "id": "e50c",
+      "title": "Paskutinis noras. Raganius. 1 dalis",
+      "author": "Andrzej Sapkowski",
+      "category": "fantasy",
+      "cover": "https://thumb.knygos-static.lt/86JnP2jRXltyWWnCiFiYilCGUTg=/fit-in/0x800/images/books/1153008/1496731114_cdb_Paskutinis-noras_p1.png"
+    },
+    {
+      "id": "e097",
+      "title": "1984-ieji",
+      "author": "George Orwell",
+      "category": "Science fiction",
+      "price": 9.99,
+      "cover": "https://thumb.knygos-static.lt/ldJ69B_et_y88OfGXMu1CtjqNic=/fit-in/0x800/images/books/14459668/1701258239_1984-ieji_virselis.jpg",
+      "reserved": false
+    },
+    {
+      "reserved": false,
+      "id": "b19d",
+      "title": "Givunėliu kapinės",
+      "category": "horror",
+      "author": "Stephen King",
+      "cover": "https://thumb.knygos-static.lt/ZWUBhlClMKjEfCu2pjOIJ4Y_8PA=/fit-in/0x800/images/books/13945584/1687519701_e93cf680b70211dd0f751d9e88c2c7c6_1800x1800.jpg"
+    }
+  ]
+}

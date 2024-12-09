@@ -6,6 +6,7 @@
       "title": "Paskutinis noras. Raganius. 1 dalis",
       "author": "Andrzej Sapkowski",
       "category": "fantasy",
+      "price": 13.29,
       "cover": "https://thumb.knygos-static.lt/86JnP2jRXltyWWnCiFiYilCGUTg=/fit-in/0x800/images/books/1153008/1496731114_cdb_Paskutinis-noras_p1.png"
     },
     {
@@ -23,6 +24,7 @@
       "title": "Givunėliu kapinės",
       "category": "horror",
       "author": "Stephen King",
+      "price": 12.99,
       "cover": "https://thumb.knygos-static.lt/ZWUBhlClMKjEfCu2pjOIJ4Y_8PA=/fit-in/0x800/images/books/13945584/1687519701_e93cf680b70211dd0f751d9e88c2c7c6_1800x1800.jpg"
     }
   ]

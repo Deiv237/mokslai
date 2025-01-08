@@ -17,16 +17,40 @@ app.use(express.json());
 const tours = JSON.parse(fs.readFileSync(dir));
 console.log(tours);
 
-app.get(`/api/v1/tours`, (req, res) => {
+//*********************************** */
+//First middleware
+const sayHello = (req, res, next) => {
+    console.log("Hello from middleware!👋");
+    next();
+};
+
+//Second middleware
+const addDate = (req, res, next) => {
+    req.requestedTime = new Date().toISOString();
+    next();
+};
+//Third middleware
+const deleteMidleware = (req, res, next) => {
+    console.log("Delete midleware");
+    next();
+};
+//*********************************** */
+
+//************************************ */
+//Controler
+const getAllTours = (req, res) => {
     res.status(200).json({
         //gali būti fail arba error
         status: `success`,
+        date: req.requestedTime,
         data: tours,
     });
 // res.send("Užklausa gavome");
-});
+};
+//************************************ */
 
-app.get(`/api/v1/tours/:id`, (req, res) => {
+//************************************ */
+const getTour = (req, res) => {
     const id = +req.params.id;
 
     const tour = tours.find((tour) => tour.id === id);
@@ -44,9 +68,11 @@ app.get(`/api/v1/tours/:id`, (req, res) => {
         data: tour,
     });
     // console.log(req.params);
-});
+};
+//************************************ */
 
-app.post(`/api/v1/tours`, (req, res) => {
+//************************************ */
+const PostTour = (req, res) => {
     // console.log(req.body);
 
     const newID = tours[tours.length-1].id + 1;
@@ -70,7 +96,76 @@ app.post(`/api/v1/tours`, (req, res) => {
             data: newTour,
         });
     });
-});
+};
+//************************************ */
+
+//************************************ */
+//Patch
+const UpdateTour = (req, res) => {
+    const id = +req.params.id;
+    
+    if (id>tours.length) {
+        res.status(404).json({
+            status: `fail`,
+            message: `Invalid ID`,
+        });
+    }
+        
+        const newTour = req.body;
+        res.status(200).json({
+            status: `success`,
+            data: `Tour updated, Id: ${id}`,
+        });
+    };
+//Patch
+//************************************ */
+
+//************************************ */
+//delete
+    const DeleteTour = (req, res) => {
+        const id = +req.params.id;
+        const tourIndex = tours.findIndex(tour => tour.id === id);
+    
+        if (tourIndex === -1) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Invalid ID',
+            });
+        }
+    
+        tours.splice(tourIndex, 1);
+    
+        fs.writeFileSync(dir, JSON.stringify(tours, null, 2), (err) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 'fail',
+                    message: 'Error writing file',
+                });
+            }
+        });
+    
+        res.status(200).json({
+            status: 'success',
+            message: `Tour with ID ${id} deleted successfully.`,
+            data: null,
+        });
+    };
+//Controler
+//************************************ */
+
+app.use(sayHello, addDate);
+// app.use(addDate);
+
+// app.get(`/api/v1/tours`, getAllTours);
+// app.get(`/api/v1/tours/:id`, getTour);
+// app.post(`/api/v1/tours`, PostTour);
+// app.patch (`/api/v1/tours/:id`, UpdateTour);
+// app.delete(`/api/v1/tours/:id`, DeleteTour);
+
+
+app.route(`/api/v1/tours`).get(getAllTours).post(PostTour);
+app.route(`/api/v1/tours/:id`).get(getTour).patch(UpdateTour).delete(deleteMidleware, DeleteTour);
+
 
 app.listen(port, () => {
     console.log(`App runnig on port ${port}`);

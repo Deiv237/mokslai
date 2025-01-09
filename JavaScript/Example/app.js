@@ -87,7 +87,7 @@ const PostTour = (req, res) => {
         if (err) {
             return res.status(500).json({
                 status: `fail`,
-                message: `Error writing file`
+                message: `Error writing file`,
             });
         }
         

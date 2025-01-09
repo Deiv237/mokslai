@@ -1,24 +1,29 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { v4: uuidv4 } = require("uuid");
 
+//**************************** */
 dotenv.config();
 const port = process.env.PORT;
 
 const app = express();
 
-app.use(express.json());
-
 let todos = [];
 
-const getAlltodos = (req, res) => {
+let ID = 1;
+
+app.use(express.json());
+//**************************** */
+
+//Get
+const gettodos = (req, res) => {
     res.status(200).json({
         status: "success",
         data: todos,
     });
 };
 
-const Posttodos = (req, res) => {
+//Post
+const posttodos = (req, res) => {
     const { description, completed } =req.body;
 
     if (!description || typeof completed !== "boolean") {
@@ -29,11 +34,11 @@ const Posttodos = (req, res) => {
     }
 
     const newTask = {
-        id: uuidv4(),
+        id: ID++,
         description,
         completed,
     };
-
+    
     todos.push(newTask);
 
     res.status(201).json({
@@ -42,11 +47,12 @@ const Posttodos = (req, res) => {
     });
 };
 
+//Put
 const puttodos = (req, res) => {
     const { id } = req.params;
     const { description, completed } = req.body;
 
-    const task = todos.findIndex(task => task.id === id);
+    const task = todos.findIndex(task => task.id === +id);
 
     if (task === -1) {
         return res.status(404).json({
@@ -69,15 +75,16 @@ const puttodos = (req, res) => {
     });
 };
 
-const deletetodos = (req, res) => {
-    const { id } = req.params;
+//Delete
+const Deletetodos = (req, res) => {
+    const {id} = req.params;
 
-    const task = todos.findIndex(task => task.id === id);
+    const task = todos.findIndex(task => task.id === +id);
 
-    if (task === -1) {
+    if(task === -1) {
         return res.status(404).json({
             status: "fail",
-            message: "Task not found.",
+            message: "Invalid ID",
         });
     }
 
@@ -85,13 +92,14 @@ const deletetodos = (req, res) => {
 
     res.status(200).json({
         status: "success",
-        message: "Task deleted successfully",
-        data: deletedTask,
+        message: `todos with Id ${id} deleted successfully`,
+        data: deletedTask
     });
 };
 
-app.route(`/api/v1/todos`).get(getAlltodos).post(Posttodos).delete(deletetodos);
-app.route(`/api/v1/todos/:id`).put(puttodos).delete(deletetodos);
+//**************************** */
+app.route(`/api/v1/todos`).get(gettodos).post(posttodos);
+app.route(`/api/v1/todos/:id`).put(puttodos).delete(Deletetodos);
 
 app.listen(port, () => {
     console.log(`App runnig on port ${port}`);

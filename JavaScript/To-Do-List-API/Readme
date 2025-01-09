@@ -2,4 +2,6 @@ npm instal eslint
 npm i express
 npm i dotenv
 npm i nodemon
-npm install express dotenv uuid
+
+.env file
+PORT = 3001

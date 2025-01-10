@@ -1,8 +1,5 @@
-const {fs, dir, tours} = require("../models/tourModel");
-const dotenv = require("dotenv");
-
-//load env variables
-dotenv.config();
+const {dir, tours} = require("../models/tourModel");
+const fs = require("fs");
 
 //*********************************** */
 //Controler

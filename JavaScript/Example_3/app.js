@@ -5,6 +5,7 @@ const tourRouter = require("./routers/tourRouter");
 //Create server
 const app = express();
 
+//body parser
 app.use(express.json());
 
 app.use(sayHello, addDate);

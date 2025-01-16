@@ -1,11 +1,16 @@
 const { sql } = require("../dbConnection");
 
-exports.getAllTours = async () => {
+exports.getAllTours = async (limit, offset) => {
   const tourList = await sql`
     SELECT tours.name as tour_name, tours.price, categories.name, difficulty.level
     FROM tours
     JOIN difficulty ON tours.difficulty_id = difficulty.id
-    JOIN categories ON tours.category_id = categories.id`;
+    JOIN categories ON tours.category_id = categories.id
+    ${
+      limit !== undefined && offset !== undefined
+        ? sql`limit ${limit} offset ${offset}`
+        : sql``
+    }`;
 
   return tourList;
 };
@@ -105,6 +110,11 @@ exports.Delete = async (id) => {
 };
 
 exports.filterTours = async (filter) => {
+  const validDirection = ["ASC", "DESC"];
+  const sortValue = filter.sort.toUpperCase();
+  const sortDirection = validDirection.includes(filter.sort.toUpperCase())
+    ? sortValue
+    : "ASC";
   const tours = await sql`
     SELECT tours.*, difficulty.level as difficulty, categories.name as category
     FROM tours
@@ -112,7 +122,9 @@ exports.filterTours = async (filter) => {
     JOIN categories ON tours.category_id = categories.id
     WHERE
     tours.duration <= ${filter.duration} AND difficulty.level = ${
-    filter.difficulty} AND tours.price <= ${filter.price}`;
+    filter.difficulty
+  } AND tours.price <= ${filter.price}
+    ORDER BY tours.price ${sql.unsafe(sortDirection)}`;
 
   return tours;
 };

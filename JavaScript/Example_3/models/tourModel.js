@@ -12,7 +12,26 @@ exports.getAllTours = async (limit, offset) => {
         : sql``
     }`;
 
-  return tourList;
+    const [total, Hardlevel] = await sql.begin(async (sql) => {
+      const [total] = await sql`
+    SELECT COUNT(*)
+    FROM tours`;
+
+    const [Hardlevel] = await sql`
+    SELECT COUNT(difficulty.level)
+    FROM tours
+    JOIN difficulty ON tours.difficulty_id = difficulty.id
+    WHERE difficulty.level = 'Hard'`;
+
+    return [total, Hardlevel];
+    });
+    // const [total] = await sql`
+    // SELECT COUNT(*)
+    // FROM tours`;
+
+
+
+  return {tourList, totalCount:total, HardtotalCount:Hardlevel};
 };
 
 exports.getToursByCat = async (categoryid) => {

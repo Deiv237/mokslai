@@ -35,9 +35,11 @@ exports.getAllTours = async (req, res) => {
 
 
     const tours = await getAllTours(limit, offset);
+
     res.status(200).json({
       status: "success",
-      data: tours,
+      data: tours.tourList,
+      total: tours.totalCount.count,
     });
   } catch (error) {
     res.status(500).json({

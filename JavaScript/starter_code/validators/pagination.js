@@ -4,20 +4,20 @@ const { getDifficultyById } = require('../models/difficultyModel');
 const paginationValidator = [
   query('page')
     .optional()
-    .isInt({ min: 1 }) // must be an integer >= 1
-    .withMessage('Page must be a positive integer') // error message
-    .toInt(), // convert to integer
+    .isInt({ min: 1 })
+    .withMessage('Page must be a positive integer')
+    .toInt(),
 
-    query('limit')
+  query('limit')
     .optional()
-    .isInt({ min: 1, max: 100 }) // must be an integer >= 1
-    .withMessage('Limit must be a positive integer') // error message
-    .toInt() // convert to integer
+    .isInt({ min: 1, max: 100 })
+    .withMessage('Limit must be a positive integer')
+    .toInt()
     .custom((value) => {
       if (value % 3 !== 0) {
         throw new Error('Limit must be a multiple of 3');
       }
-      return true; //validation passed
+      return true;
     })
     .custom(async(value) => {
       const difficulty = await getDifficultyById(value);

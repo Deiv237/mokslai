@@ -5,6 +5,8 @@ const {
   updateTour,
   filterTours,
 } = require('../models/tourModel');
+const pagination = require('../validators/pagination');
+const validate = require('../validators/validate');
 
 
 //2. pagination and validation

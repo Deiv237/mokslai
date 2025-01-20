@@ -2,6 +2,7 @@ const express = require('express');
 const tourControler = require('../controlers/tourControler');
 const paginationValidator = require('../validators/pagination');
 const validate = require('../validators/validate');
+const filterValidator = require('../validators/filterValidator');
 
 const { getAllTours, getTourById, createTour, updateTour, getFilteredTours } =
   tourControler;
@@ -17,7 +18,7 @@ const router = express.Router();
 
 // deklaruojame, aprašome tour routes, svarbi routs eilės tvarka
 router.route('/').get(paginationValidator, validate, getAllTours).post(createTour); // General base route
-router.route('/filter').get(getFilteredTours);
+router.route('/filter').get(filterValidator, validate, getFilteredTours);
 router.route('/category/:category/difficulty/:difficulty'); // Specific route for category and difficulty
 
 router

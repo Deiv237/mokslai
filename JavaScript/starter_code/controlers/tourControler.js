@@ -5,9 +5,6 @@ const {
   updateTour,
   filterTours,
 } = require('../models/tourModel');
-const pagination = require('../validators/pagination');
-const validate = require('../validators/validate');
-
 
 //2. pagination and validation
 exports.getAllTours = async (req, res) => {
@@ -93,7 +90,7 @@ exports.getFilteredTours = async (req, res) => {
     }
 
     // Validate difficulty against allowed values
-    const validDifficulties = ['easy', 'medium', 'difficult'];
+    const validDifficulties = ['Easy', 'Medium', 'Hard'];
     if (!validDifficulties.includes(filter.difficulty)) {
       throw new Error('Invalid difficulty');
     }

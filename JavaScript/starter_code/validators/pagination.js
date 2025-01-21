@@ -1,5 +1,5 @@
 const { query } = require('express-validator');
-const { getDifficultyById } = require('../models/difficultyModel');
+// const { getDifficultyById } = require('../models/difficultyModel');
 
 const paginationValidator = [
   query('page')
@@ -19,14 +19,14 @@ const paginationValidator = [
       }
       return true;
     })
-    .custom(async(value) => {
-      const difficulty = await getDifficultyById(value);
+    // .custom(async(value) => {
+    //   const difficulty = await getDifficultyById(value);
 
-      if (!difficulty) {
-        throw new Error('Difficulty not found');
-      }
-      return true;
-    }),
+    //   if (!difficulty) {
+    //     throw new Error('Difficulty not found');
+    //   }
+    //   return true;
+    // }),
 ];
 
 module.exports = paginationValidator;

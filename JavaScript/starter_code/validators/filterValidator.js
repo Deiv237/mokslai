@@ -10,14 +10,20 @@ const filterValidator = [
   // Validate difficulty: must be one of 'easy', 'medium', 'difficult'
   query('difficulty')
     .optional()
-    .isIn(['easy', 'medium', 'difficult'])
-    .withMessage('Difficulty must be one of: easy, medium, difficult'),
+    .isIn(['Easy', 'Medium', 'Hard'])
+    .withMessage('Difficulty must be one of "Easy", "Medium", "Hard"'),
 
   // Validate price: must be a number greater than or equal to 0
   query('price')
     .optional()
     .isFloat({ min: 0 })
     .withMessage('Price must be a non-negative number'),
+
+  // Validate category: must be a string
+  query('category')
+    .optional()
+    .isString()
+    .withMessage('Category must be a string'),
 
   // Validate sort: must be either 'asc' or 'desc'
   query('sort')

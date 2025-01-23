@@ -2,6 +2,7 @@ const express = require("express");
 const bookRouter = require("./routers/bookRouter");
 const errorHandler = require("./middlewares/errorHandler");
 const appError = require("./utils/appError");
+const userRouter = require("./routers/userRouter");
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ app.use((req, res, next) => {
 });
 
 app.use(`/api/v1/books`, bookRouter);
+app.use("/api/vq/users", userRouter);
 
 app.all("*", (req, res, next) => {
     // const error = new Error(`Not Found - ${req.originalUrl}`);

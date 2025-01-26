@@ -1,7 +1,8 @@
 const {sql} = require("../dbConnection");
 
-exports.getAllUsers = async () => {
-    const result = await sql`SELECT * 
+exports.getAll = async () => {
+    const result = await sql`
+    SELECT users.* 
     FROM users
     `;
 
@@ -11,7 +12,13 @@ exports.getAllUsers = async () => {
 exports.createUser = async (user) => {
     const result = await sql`
     INSERT INTO users
-    ${sql(user, `username`, `email`, `password`)}
+    ${sql(user, `username`, `email`)}
+    INSERT INTO user_secrets
+    ${sql(user, `user_id`, `password`)}
+    INSERT INTO user_roles
+    ${sql(user, `user_id`, `role_id`)}
+    INSERT INTO profiles
+    ${sql(user, `user_id`, `first_name`, `last_name`, `bio`, `profile_picture`, `age`, `country_id`)}
     RETURNING *`;
     return result;
 };

@@ -1,7 +1,8 @@
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
-const { createUser, getAllUsers, getUserById, updateUser, deleteUser, getUserByEmail } = require("../models/userModel");
+const { createUser, getAll, getUserById, updateUser, deleteUser, getUserByEmail } = require("../models/userModel");
 const appError = require("../utils/appError");
+const { validationResult } = require("express-validator");
 
 const signToken = (id) => {
     const token = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -19,32 +20,41 @@ const sendCookie = (token, res) => {
 
 exports.register = async (req, res, next) => {
     try {
-        const newUser = req.body;
-
-        const hash = await argon2.hash(newUser.password);
-
-        newUser.password = hash;
-        newUser.role = "user";
-
-        const createdUser = await createUser(newUser);
-
-        const token = signToken(createdUser.id);
-
-        sendCookie(token, res);
-
-        createdUser.password = undefined;
-        createdUser.id = undefined;
-
-        res.status(201).json({
-            status: "success",
-            data: {
-                user: createdUser,
-            },
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          status: 'fail',
+          errors: errors.array(),
         });
+      }
+  
+      const newUser = req.body;
+  
+      // Hash the password securely
+      const hash = await argon2.hash(newUser.password);
+      newUser.password = hash;
+  
+      // Create the user in the database
+      const createdUser = await createUser(newUser);
+  
+      // Generate and send token
+      const token = signToken(createdUser.id);
+      sendCookie(token, res);
+  
+      // Remove sensitive information before sending response
+      delete createdUser.password;
+      delete createdUser.id;
+  
+      res.status(201).json({
+        status: 'success',
+        data: {
+          user: createdUser,
+        },
+      });
     } catch (error) {
-        next(error);
+      next(error);
     }
-};
+  };
 
 exports.login = async (req, res, next) => {
     try {
@@ -62,6 +72,19 @@ exports.login = async (req, res, next) => {
             data: user,
         });
     } catch (error) {
+        next(error);
+    }
+};
+
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const users = await getAll();
+        res.status(200).json({
+            status: "success",
+            results: users.length,
+            data: users,
+        });
+    } catch (error) {    
         next(error);
     }
 };

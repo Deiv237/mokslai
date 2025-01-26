@@ -19,42 +19,46 @@ const sendCookie = (token, res) => {
 };
 
 exports.register = async (req, res, next) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({
-          status: 'fail',
-          errors: errors.array(),
-        });
-      }
-  
-      const newUser = req.body;
-  
-      // Hash the password securely
-      const hash = await argon2.hash(newUser.password);
-      newUser.password = hash;
-  
-      // Create the user in the database
-      const createdUser = await createUser(newUser);
-  
-      // Generate and send token
-      const token = signToken(createdUser.id);
-      sendCookie(token, res);
-  
-      // Remove sensitive information before sending response
-      delete createdUser.password;
-      delete createdUser.id;
-  
-      res.status(201).json({
-        status: 'success',
-        data: {
-          user: createdUser,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  try {
+    const errors = validationResult(req);
+if (!errors.isEmpty()) {
+  console.error(errors.array()); // Log detailed validation errors
+  return res.status(400).json({
+    status: "fail",
+    errors: errors.array(), // Include specific error messages
+  });
+}
+
+    const newUser = req.body;
+
+    // Hash the password securely
+    const hash = await argon2.hash(newUser.password);
+    newUser.password = hash;
+
+    // Remove passwordconfirm as it’s only for validation
+    delete newUser.passwordconfirm;
+
+    // Create the user in the database
+    const createdUser = await createUser(newUser);
+
+    // Generate and send token
+    const token = signToken(createdUser.id);
+    sendCookie(token, res);
+
+    // Remove sensitive information before sending response
+    delete createdUser.password;
+    delete createdUser.id;
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        user: createdUser,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.login = async (req, res, next) => {
     try {

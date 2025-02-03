@@ -1,15 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CodingConfForm from "./components/CodingConfForm";
-import Ticket from "./components/Ticket";
+// import Ticket from "./components/Ticket";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<CodingConfForm />} />
-        <Route path="/ticket" element={<Ticket />} />
-      </Routes>
-    </Router>
+    <div className="App">
+      <CodingConfForm />
+    </div>
+    // <Router>
+    //   <Routes>
+    //     <Route path="/" element={<CodingConfForm />} />
+    //     {/* <Route path="/ticket" element={<Ticket />} /> */}
+    //   </Routes>
+    // </Router>
   );
 }
 

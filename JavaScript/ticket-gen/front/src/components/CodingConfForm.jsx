@@ -1,14 +1,27 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import navigation
+// import { useNavigate } from "react-router-dom"; // Import navigation
 import axios from "axios"; // Import Axios for API calls
 import "./codingConfForm.css";
+import { useForm } from 'react-hook-form'; // Import useForm from react-hook-form
+import { useContext } from 'react'; // Import useContext from react
+import { UserContext } from '../contexts/UserContext'; // Import UserContext
 
-const CodingConfForm = () => {
-  const [avatar, setAvatar] = useState(null);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [githubUsername, setGithubUsername] = useState("");
-  const navigate = useNavigate(); // Use navigate for page redirection
+const API_URL = import.meta.env.VITE_API_URL;
+
+export default function CodingConfForm() {
+  const [error, setError] = useState(null);
+  const [avatar, setAvatar] = useState(null); // Initialize avatar state
+  const [fullName, setFullName] = useState(""); // Initialize fullName state
+  const [email, setEmail] = useState(""); // Initialize email state
+  const [githubUsername, setGithubUsername] = useState(""); // Initialize githubUsername state
+
+  const { setUser } = useContext(UserContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -17,36 +30,29 @@ const CodingConfForm = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Create FormData object for sending data
-    const formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("email", email);
-    formData.append("username", githubUsername);
-
+  const onSubmit = async (formdata) => {
     try {
-      // Send data to backend
-      const response = await axios.post(
-        "http://localhost:3001/api/v1/users/signup",
-        formData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+      const { data: response } = await axios.post(
+        `${API_URL}/users/signup`,
+        formdata,
+        { withCredentials: true }
       );
-
-      // If successful, navigate to the Ticket page
-      if (response.status === 201) {
-        navigate("/ticket", {
-          state: { fullName, email, githubUsername, avatar },
-        });
-      }
+      console.log(formdata);
+      setUser(response.data);
     } catch (error) {
-      console.error(
-        "Signup failed:",
-        error.response?.data?.message || error.message
-      );
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          setError(
+            error.response.data.message || "An Error Occured, please try again"
+          );
+        } else if (error.request) {
+          setError("No response from server. Check your internet connection");
+        } else {
+          setError("Something went wrong, please try again");
+        }
+      } else {
+        setError("An unexpected error Occured");
+      }
     }
   };
 
@@ -60,7 +66,7 @@ const CodingConfForm = () => {
           Secure your spot at next year's biggest coding conference.
         </p>
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center">
             <label className="cursor-pointer w-full border-2 border-dashed border-gray-500 p-6 rounded-lg text-center">
               {avatar ? (
@@ -89,8 +95,7 @@ const CodingConfForm = () => {
           <input
             type="text"
             placeholder="Full Name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            {...register("fullName")}
             className="w-full p-3 rounded-lg bg-gray-800 text-white focus:ring focus:ring-purple-500"
             required
           />
@@ -113,7 +118,7 @@ const CodingConfForm = () => {
 
           <button
             type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold text-lg"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-black py-3 rounded-lg font-semibold text-lg"
           >
             Generate My Ticket
           </button>
@@ -122,5 +127,3 @@ const CodingConfForm = () => {
     </div>
   );
 };
-
-export default CodingConfForm;

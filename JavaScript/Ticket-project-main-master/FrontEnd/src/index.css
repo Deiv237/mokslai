@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inconsolata:wght@200..900&display=swap");
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* this works for the body */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome & Safari */
+  }
+  .no-scrollbar{
+    -ms-overflow-style: none;  /* Internet Explorer */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* this works for the body */
+@layer base {
+  body {
+    box-sizing: border-box;
+    background-image: 
+    url('../image/path178.png'),
+    url('../image/Line.svg'),
+    url('../image/Pattern.svg'),
+    url('../image/Circles.svg'),
+    url('../image/background.png');
+    background-size: 30%, contain, contain, 20%, cover;
+    background-position: right 40px, 0px, center, 1050px 340px, center;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-attachment: fixed;
+  }
+
+}
+
+/* this works for the components */
+@layer components {
+  .fira {
+    font-family: "Fira Code", monospace;
+  }
+
+  .inconsolata {
+    font-family: "Inconsolata", serif;
+  }
+}

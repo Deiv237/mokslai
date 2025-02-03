@@ -1,0 +1,13 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(155),
+    email VARCHAR(155),
+    github VARCHAR(155)
+);
+
+CREATE TABLE qrcode (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    qrcode TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

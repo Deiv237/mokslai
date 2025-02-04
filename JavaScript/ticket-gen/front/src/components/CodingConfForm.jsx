@@ -1,20 +1,15 @@
-import { useState } from "react";
-// import { useNavigate } from "react-router-dom"; // Import navigation
-import axios from "axios"; // Import Axios for API calls
+import { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
 import "./codingConfForm.css";
-import { useForm } from 'react-hook-form'; // Import useForm from react-hook-form
-import { useContext } from 'react'; // Import useContext from react
-import { UserContext } from '../contexts/UserContext'; // Import UserContext
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function CodingConfForm() {
   const [error, setError] = useState(null);
-  const [avatar, setAvatar] = useState(null); // Initialize avatar state
-  const [fullName, setFullName] = useState(""); // Initialize fullName state
-  const [email, setEmail] = useState(""); // Initialize email state
-  const [githubUsername, setGithubUsername] = useState(""); // Initialize githubUsername state
-
+  const [avatar, setAvatar] = useState(null);
+  
   const { setUser } = useContext(UserContext);
 
   const {
@@ -32,29 +27,20 @@ export default function CodingConfForm() {
 
   const onSubmit = async (formdata) => {
     try {
+      console.log("Submitting form data:", formdata); // ✅ Log form data
       const { data: response } = await axios.post(
         `${API_URL}/users/signup`,
         formdata,
         { withCredentials: true }
       );
-      console.log(formdata);
+      console.log("Response from backend:", response);
       setUser(response.data);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          setError(
-            error.response.data.message || "An Error Occured, please try again"
-          );
-        } else if (error.request) {
-          setError("No response from server. Check your internet connection");
-        } else {
-          setError("Something went wrong, please try again");
-        }
-      } else {
-        setError("An unexpected error Occured");
-      }
+      console.error("Error response:", error.response?.data); // ✅ Log backend error
+      setError(error.response?.data?.message || "An Error Occurred");
     }
-  };
+  };  
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-900 to-black text-white p-4">
@@ -66,6 +52,8 @@ export default function CodingConfForm() {
           Secure your spot at next year's biggest coding conference.
         </p>
 
+        {error && <p className="text-red-500 text-center">{error}</p>}
+
         <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center">
             <label className="cursor-pointer w-full border-2 border-dashed border-gray-500 p-6 rounded-lg text-center">
@@ -76,9 +64,7 @@ export default function CodingConfForm() {
                   className="w-20 h-20 rounded-full mx-auto"
                 />
               ) : (
-                <p className="text-gray-400">
-                  Drag and drop or click to upload
-                </p>
+                <p className="text-gray-400">Drag and drop or click to upload</p>
               )}
               <input
                 type="file"
@@ -95,25 +81,24 @@ export default function CodingConfForm() {
           <input
             type="text"
             placeholder="Full Name"
-            {...register("fullName")}
+            {...register("fullName", { required: true })}
             className="w-full p-3 rounded-lg bg-gray-800 text-white focus:ring focus:ring-purple-500"
-            required
           />
+          {errors.fullName && <p className="text-red-500 text-sm">Full Name is required.</p>}
+
           <input
             type="email"
             placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", { required: true })}
             className="w-full p-3 rounded-lg bg-gray-800 text-white focus:ring focus:ring-purple-500"
-            required
           />
+          {errors.email && <p className="text-red-500 text-sm">Email is required.</p>}
+
           <input
             type="text"
             placeholder="GitHub Username"
-            value={githubUsername}
-            onChange={(e) => setGithubUsername(e.target.value)}
+            {...register("githubUsername", { required: true })}
             className="w-full p-3 rounded-lg bg-gray-800 text-white focus:ring focus:ring-purple-500"
-            required
           />
 
           <button
@@ -126,4 +111,4 @@ export default function CodingConfForm() {
       </div>
     </div>
   );
-};
+}

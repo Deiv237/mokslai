@@ -1,56 +1,97 @@
-const jwt = require("jsonwebtoken");
-const AppError = require("../utils/appError");
-const { createUser, getAllUsers } = require("../models/userModel");
+const { userPost, getUsers, getUserQR, saveBlobToDb } = require("../model/userModel");
+const QRcode = require("qrcode");
+const fs = require("fs");
+const filePath = "../BackEnd/qrCode";
+const path = require("path");
+const { sql } = require("../dbConnection");
 
-const signToken = (id) => {
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-    return token;
+
+const SERVER_URL = "http://techin.lt";
+
+const generateQr = async (userId) => {
+  try {
+    const url = `${SERVER_URL}/qr/${userId}.png`
+    const qrCodeUrl = await QRcode.toDataURL(url);
+    return qrCodeUrl;
+  } catch (error) {
+    throw new error("Error generating qr code");
+  }
 };
 
-const sendCookie = (token, res) => {
-    res.cookie("jwt", token, {
-        expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
+exports.userPostController = async (req, res, next) => {
+  try {
+    
+    const user = req.body;
+    
+    const userTicket = await userPost(user);
+    const userId = userTicket.id;
+
+    const getCode = await generateQr(userId);
+
+    // get base64-encoded bytes
+    const data = getCode.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(data, "base64");
+    
+  
+    fs.writeFile(`../BackEnd/qrCode/${userId}.png`, buffer, async (err) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const fileName = `../BackEnd/qrCode/${userId}.png`;
+            await saveBlobToDb(userId, fileName);
+        }
     });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        userId: userId,
+        user: userTicket,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.signup = async (req, res, next) => {
-    try {
-        const newUser = req.body;
+exports.getUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
 
-        newUser.role = "user";
+    const code = await getUserQR(id);
 
-        const createdUser = await createUser(newUser);
+    console.log(code);
 
-        const token = signToken(createdUser.id);
+    const name = code.name;
+    const email = code.email
+    const github = code.github
 
-        sendCookie(token, res);
+    const qrcodePath = code.qrcode; // get qrcode path from database
+    const fileName = path.basename(qrcodePath);
+    const publicUrl = `${SERVER_URL}`;
 
-        createdUser.id = undefined;
-
-        res.status(201).json({
-            status: "success",
-            data: {
-                user: createdUser,
-            },
-        });
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      link: publicUrl,
+      users: name,
+      email: email,
+      github: github,
+      userId: id
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getAllUsers = async (req, res, next) => {
-    try {
-        const users = await getAllUsers();
-        res.status(200).json({
-            status: "success",
-            data: {
-                users,
-            },
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const users = await getUsers();
+
+    res.status(200).json({
+      status: "success",
+      allUsers: users,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

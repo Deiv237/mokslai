@@ -1,19 +1,17 @@
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CodingConfForm from "./components/CodingConfForm";
-// import Ticket from "./components/Ticket";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Main from "./components/Main";
+// import GetTicket from "./components/GetTicket";
 
 function App() {
   return (
-    <div className="App">
-      <CodingConfForm />
-    </div>
-    // <Router>
-    //   <Routes>
-    //     <Route path="/" element={<CodingConfForm />} />
-    //     {/* <Route path="/ticket" element={<Ticket />} /> */}
-    //   </Routes>
-    // </Router>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        {/* <Route path="/ticket" element={<GetTicket />} /> */}
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+

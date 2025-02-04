@@ -1,24 +1,41 @@
-const {sql} = require("../dbConnection");
+const { sql } = require("../dbConnection");
 
-exports.createUser = async (newUser) => {
-    const [user] = await sql`
-    INSERT INTO tick_users ${sql(newUser, `avatar`, `fullName`, `email`, `username`)}
-    RETURNING *
+exports.userPost = async (user) => {
+  const createUser = await sql`
+        INSERT INTO tick_users (fullName, email, github)
+        VALUES (${user.fullName}, ${user.email}, ${user.github})
+        RETURNING *;
     `;
-    return user;
+
+    return createUser[0];
 };
-exports.getUserByEmail = async (email) => {
-    const [user] = await sql`
-    SELECT tick_users.*
-    FROM tick_users
-    WHERE tick_users.email = ${email}
-    `;
-    return user;
-};
-exports.getAllUsers = async () => {
-    const users = await sql`
+
+exports.getUsers = async () => {
+  const users = await sql`
     SELECT *
     FROM tick_users
     `;
-    return users;
+
+  return users;
+};
+
+exports.saveBlobToDb = async (id, filePath) => {
+      
+  const result = await sql`
+  INSERT INTO qrcode (user_id ,qrcode)
+  VALUES (${id}, ${filePath})`;
+
+  return result[0];
+}
+
+exports.getUserQR = async (id) => {
+  const result = await sql`
+    SELECT qrcode, qrcode.user_id, tick_users.fullName, tick_users.email, tick_users.username
+    from qrcode
+    JOIN users
+    ON users.id = qrcode.user_id
+    WHERE users.id = ${id}
+    `;
+
+  return result[0];
 };

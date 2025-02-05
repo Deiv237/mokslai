@@ -1,9 +1,10 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import "./LoginForm.css";
 import { useState } from "react";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContent";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,6 +12,8 @@ export default function LoginForm() {
   const [error, setError] = useState(null);
 
   const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -27,6 +30,8 @@ export default function LoginForm() {
       );
       // console.log(response.data);
       setUser(response.data);
+      setError(null);
+      navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {

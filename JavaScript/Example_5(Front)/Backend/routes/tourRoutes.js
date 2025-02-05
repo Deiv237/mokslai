@@ -24,7 +24,7 @@ const router = express.Router();
 // deklaruojame, aprašome tour routes, svarbi routs eilės tvarka
 router
   .route('/')
-  .get(protect, allowAccessTo('admin', 'moderator'), getAllTours)
+  .get(protect, allowAccessTo('admin', 'user'), getAllTours)
   .post(validateNewTour, validate, createTour); // General base route
 router.route('/filter').get(filterValidator, validate, getFilteredTours);
 

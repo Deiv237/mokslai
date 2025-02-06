@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContent";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function SignupForm() {
   const [error, setError] = useState(null);
-
+  console.log(error);
   const { setUser } = useContext(UserContext);
 
   const {
@@ -105,17 +106,18 @@ export default function SignupForm() {
           Confirm Password
         </label>
         <input
-  type="password"
-  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-  {...register("passwordconfirm", {
-    required: "Confirm password is required",
-    validate: (value) => value === getValues("password"),
-  })}
-/>
+          type="password"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+          {...register("passwordconfirm", {
+            required: "Confirm password is required",
+            validate: (value) => value === getValues("password"),
+          })}
+        />
         {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
       </div>
 
       <button type="submit">Sign Up</button>
+      <button><Link to="/login">Login</Link></button>
     </form>
   );
 }

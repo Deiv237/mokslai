@@ -1,11 +1,26 @@
+import "./Invoices.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function Invoices() {
+export default function Invoice() {
   const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState(null);
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "Paid":
+        return "text-green-400";
+      case "Pending":
+        return "text-orange-400";
+      case "Draft":
+        return "text-gray-600";
+      default:
+        return "text-gray-500";
+    }
+  };
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -21,9 +36,14 @@ export default function Invoices() {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response) {
-            setError(error.response.data.message || "An error occurred. Please try again.");
+            setError(
+              error.response.data.message ||
+                "An error occurred. Please try again."
+            );
           } else if (error.request) {
-            setError("No response from server. Check your internet connection.");
+            setError(
+              "No response from server. Check your internet connection."
+            );
           } else {
             setError("Something went wrong. Please try again.");
           }
@@ -36,19 +56,47 @@ export default function Invoices() {
     fetchInvoices();
   }, []);
 
+  const onClick = (id) => {
+    // Define the onClick function here
+  };
+
   return (
-    <div>
+    <div className="bg-gray-200 p-5">
       {error && <p className="text-orange-700">{error}</p>}
       <h1 className="text-xl font-bold">Invoices</h1>
-      <ul className="list-disc pl-5">
+      <ul className="list-disc pl-5 list-none">
         {invoices.length > 0 ? (
           invoices.map((invoice) => (
-            <li key={invoice.id} className="mb-2 border p-3 rounded-lg shadow">
-              <p><strong>Tag:</strong> {invoice.tag}</p>
-              <p><strong>Date:</strong> {new Date(invoice.date).toLocaleDateString()}</p>
-              <p><strong>Value:</strong> ${Number(invoice.value).toFixed(2)}</p>
-              <p><strong>User:</strong> {invoice.username}</p>
-              <p><strong>Status:</strong> {invoice.status}</p>
+            <li
+              key={invoice.id}
+              className="mb-5 border p-2 rounded-lg shadow bg-gray-100"
+            >
+              <div className="flex justify-between items-center">
+                <div className="flex-1">
+                  <p className="text-lg font-bold">{invoice.tag}</p>
+                </div>
+                <div className="flex-1 text-right ml-3">
+                  <p className="text-lg">
+                    {new Date(invoice.date).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="flex-1 text-center ml-3">
+                  <p className="text-lg">{invoice.username}</p>
+                </div>
+                <div className="flex-1 text-right">
+                  <p className="text-lg">${Number(invoice.value).toFixed(2)}</p>
+                </div>
+                <div className="flex-0.8 text-right ml-4">
+                  <Link to={`/invoices/${invoice.id}`} id={invoice.id}>
+                    <button
+                      onClick={() => onClick(invoice.id)}
+                      className={`text-lg ${getStatusClass(invoice.status)}`}
+                    >
+                      &#9679; {invoice.status}
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </li>
           ))
         ) : (

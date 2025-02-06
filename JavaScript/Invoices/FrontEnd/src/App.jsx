@@ -3,6 +3,8 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import Invoices from "./components/Invoices";
 import { Routes, Route } from "react-router";
+import InvoiceEdit from "./components/InvoiceEdit";
+// import { Link } from 'react-router'
 
 export default function App() {
   return (
@@ -20,11 +22,11 @@ export default function App() {
           path="/invoices"
           element={<Invoices />}
         />
+        <Route
+          path="/invoices/:id"
+          element={<InvoiceEdit/>}
+          />
       </Routes>
     </>
-    // <div className="App">
-    //   {/* <LoginForm /> */}
-    //   <SignupForm />
-    // </div>
   );
 }

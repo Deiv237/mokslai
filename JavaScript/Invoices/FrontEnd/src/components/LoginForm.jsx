@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContent";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,6 +15,8 @@ export default function LoginForm() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    const navigate = useNavigate();
+
     const onSubmit = async (data) => {
         try {
             const {data:response} = await axios.post(
@@ -22,6 +25,7 @@ export default function LoginForm() {
                 }
             );
             setUser(response.data);
+            navigate("/invoices");
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
@@ -65,6 +69,7 @@ export default function LoginForm() {
                 <button className="w-full bg-sky-500/75 hover:bg-indigo-700 text-grey-100 font-medium py-2.5 rounded-lg transition-colors" type="submit">
                     Login
                 </button>
+                <p>Don't have an account? <Link to="/">Sign up</Link></p>
             </form>
     );
 }

@@ -57,8 +57,9 @@ export default function Invoice() {
   }, []);
 
   const onClick = (id) => {
-    // Define the onClick function here
+    console.log(`Invoice ${id} clicked`); // Debugging
   };
+  
 
   return (
     <div className="bg-gray-200 p-5">
@@ -73,18 +74,18 @@ export default function Invoice() {
             >
               <div className="flex justify-between items-center">
                 <div className="flex-1">
-                  <p className="text-lg font-bold">{invoice.tag}</p>
+                  <p className="text-gray-500 text-lg font-bold">{invoice.tag}</p>
                 </div>
                 <div className="flex-1 text-right ml-3">
-                  <p className="text-lg">
+                  <p className="text-gray-500 text-lg">
                     {new Date(invoice.date).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="flex-1 text-center ml-3">
-                  <p className="text-lg">{invoice.username}</p>
+                  <p className="text-gray-500 text-lg">{invoice.username}</p>
                 </div>
                 <div className="flex-1 text-right">
-                  <p className="text-lg">${Number(invoice.value).toFixed(2)}</p>
+                  <p className="text-gray-500 text-lg">${Number(invoice.value).toFixed(2)}</p>
                 </div>
                 <div className="flex-0.8 text-right ml-4">
                   <Link to={`/invoices/${invoice.id}`} id={invoice.id}>

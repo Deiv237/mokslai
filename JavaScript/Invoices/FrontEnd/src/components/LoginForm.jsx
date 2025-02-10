@@ -1,4 +1,4 @@
-import "./LoginForm.css";
+import "./tailwind.css";
 import { useContext } from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";

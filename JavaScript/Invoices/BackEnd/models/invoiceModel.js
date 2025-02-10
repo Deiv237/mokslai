@@ -1,4 +1,5 @@
 const { sql } = require('../dbConnection');
+//date format: MM-DD-YYYY
 
 exports.getAllInvoices = async () => {
     const result = await sql`SELECT * FROM invoices`;
@@ -17,7 +18,8 @@ exports.createInvoice = async (newInvoice) => {
         `tag`,
         `date`,
         `value`,
-        `username`
+        `username`,
+        `status`
     )}
     RETURNING *;
     `;
@@ -27,7 +29,7 @@ exports.createInvoice = async (newInvoice) => {
 exports.UpdateInvoice = async (id, updatedInvoice) => {
     const result = await sql`
     UPDATE invoices
-    SET ${sql(updatedInvoice, `tag`, `date`, `value`, `username`)}
+    SET ${sql(updatedInvoice, `tag`, `date`, `value`, `username`, `status`)}
     WHERE id = ${id}
     RETURNING *;
     `;
@@ -41,4 +43,16 @@ exports.DeleteInvoice = async (id) => {
     RETURNING *;
     `;
     return result;
+};
+exports.filterInvoices = async (filter) => {
+  console.log(filter.status); // Log the filter.status value
+    console.log("filter");
+  const query = sql`
+    SELECT * FROM invoices
+    WHERE status = 'Draft'
+  `;
+  console.log(query); // Log the SQL query
+
+  const result = await query;
+  return result;
 };

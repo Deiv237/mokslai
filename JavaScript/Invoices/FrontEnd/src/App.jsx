@@ -4,6 +4,7 @@ import SignupForm from "./components/SignupForm";
 import Invoices from "./components/Invoices";
 import { Routes, Route } from "react-router";
 import InvoiceEdit from "./components/InvoiceEdit";
+import CreateInvoice from "./components/CreateInvoice";
 // import { Link } from 'react-router'
 
 export default function App() {
@@ -25,6 +26,10 @@ export default function App() {
         <Route
           path="/invoices/:id"
           element={<InvoiceEdit/>}
+          />
+          <Route
+          path="/invoices/create"
+          element={<CreateInvoice/>}
           />
       </Routes>
     </>

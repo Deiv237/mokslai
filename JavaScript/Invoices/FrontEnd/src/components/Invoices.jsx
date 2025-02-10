@@ -1,7 +1,8 @@
-import "./Invoices.css";
+import "./tailwind.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router";
+import { CiCirclePlus } from "react-icons/ci";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -64,7 +65,18 @@ export default function Invoice() {
   return (
     <div className="bg-gray-200 p-5">
       {error && <p className="text-orange-700">{error}</p>}
-      <h1 className="text-xl font-bold">Invoices</h1>
+      <div className="flex justify-between items-center mb-4">
+        <div>
+  <h1 className="text-3xl font-bold">Invoices</h1>
+  <h2>There are {invoices.length} total invoices</h2>
+  </div>
+  <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded flex items-center">
+  <Link to="/invoices/create" className="flex justify-between w-full">
+    <CiCirclePlus className="mt-1 mr-2" />
+    <span>Create Invoice</span>
+  </Link>
+</button>
+</div>
       <ul className="list-disc pl-5 list-none">
         {invoices.length > 0 ? (
           invoices.map((invoice) => (

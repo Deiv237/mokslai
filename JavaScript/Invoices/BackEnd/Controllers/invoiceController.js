@@ -4,8 +4,11 @@ const {
   createInvoice,
   UpdateInvoice,
   DeleteInvoice,
+  filterInvoices,
 } = require('../models/invoiceModel');
 const AppError = require('../utils/appError');
+
+console.log("invoicesRoutes.js"); // Log the file call
 
 exports.getAllInvoices = async (req, res, next) => {
   try {
@@ -71,3 +74,46 @@ exports.DeleteInvoice = async (req, res, next) => {
     next(error);
   }
 };
+
+
+exports.getFilteredInvoices = async (req, res, next) => {
+  console.log("getFilteredInvoices"); // Log the function call
+  try {
+    const result = await filterInvoices({ status: req.query.status });
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+// exports.getFilteredInvoices = async (req, res, next) => {
+//   try {
+//     const filter = req.query;
+
+//     if (Object.keys(filter).length === 0) {
+//       const invoices = await getAllInvoices();
+//       res.status(200).json({
+//         status: 'success',
+//         data: invoices,
+//       });
+//     } else {
+//       const filteredInvoices = await filterInvoices(filter);
+
+//       if (filteredInvoices.length === 0) {
+//         res.status(404).json({
+//           status: 'fail',
+//           message: 'No invoices found with the specified status',
+//         });
+//       } else {
+//         res.status(200).json({
+//           status: 'success',
+//           data: filteredInvoices,
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };

@@ -89,6 +89,28 @@ exports.getFilteredInvoices = async (req, res, next) => {
   }
 }
 // exports.getFilteredInvoices = async (req, res, next) => {
+//   console.log("getFilteredInvoices called with query:", req.query); // Debugging
+
+//   try {
+//     const filters = {
+//       status: req.query.status ? req.query.status.split(",") : [], // Convert CSV string to array
+//       username: req.query.username,
+//       startDate: req.query.startDate,
+//       endDate: req.query.endDate,
+//     };
+
+//     const result = await filterInvoices(filters);
+
+//     res.status(200).json({
+//       status: "success",
+//       data: result,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+// exports.getFilteredInvoices = async (req, res, next) => {
 //   try {
 //     const filter = req.query;
 

@@ -56,3 +56,22 @@ exports.filterInvoices = async (filter) => {
   const result = await query;
   return result;
 };
+// exports.filterInvoices = async (filter) => {
+//   console.log("Filter received:", filter); // Debugging
+
+//   let query = sql`SELECT * FROM invoices WHERE 1=1`; // Start with a base query
+
+//   if (filter.status && filter.status.length > 0) {
+//     query = sql`${query} AND status IN (${sql(filter.status)})`; // Allow multiple statuses
+//   }
+//   if (filter.username) {
+//     query = sql`${query} AND username = ${filter.username}`; // Filter by username
+//   }
+//   if (filter.startDate && filter.endDate) {
+//     query = sql`${query} AND date BETWEEN ${filter.startDate} AND ${filter.endDate}`; // Filter by date range
+//   }
+
+//   console.log("Generated SQL Query:", query); // Debugging
+//   const result = await query;
+//   return result;
+// };

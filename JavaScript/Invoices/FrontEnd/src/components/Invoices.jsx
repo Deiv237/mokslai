@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router";
 import { CiCirclePlus } from "react-icons/ci";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContent";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Invoice() {
   const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState(null);
+  const { isAdmin } = useContext(UserContext);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -60,23 +63,24 @@ export default function Invoice() {
   const onClick = (id) => {
     console.log(`Invoice ${id} clicked`); // Debugging
   };
-  
 
   return (
     <div className="bg-gray-200 p-5">
       {error && <p className="text-orange-700">{error}</p>}
       <div className="flex justify-between items-center mb-4">
         <div>
-  <h1 className="text-3xl font-bold">Invoices</h1>
-  <h2>There are {invoices.length} total invoices</h2>
-  </div>
-  <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded flex items-center">
-  <Link to="/invoices/create" className="flex justify-between w-full">
-    <CiCirclePlus className="mt-1 mr-2" />
-    <span>Create Invoice</span>
-  </Link>
-</button>
-</div>
+          <h1 className="text-3xl font-bold">Invoices</h1>
+          <h2>There are {invoices.length} total invoices</h2>
+        </div>
+        {/* {isAdmin ? ( */}
+        <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded flex items-center">
+          <Link to="/invoices/create" className="flex justify-between w-full">
+            <CiCirclePlus className="mt-1 mr-2" />
+            <span>Create Invoice</span>
+          </Link>
+        </button>
+        {/* ) : null} */}
+      </div>
       <ul className="list-disc pl-5 list-none">
         {invoices.length > 0 ? (
           invoices.map((invoice) => (
@@ -86,7 +90,9 @@ export default function Invoice() {
             >
               <div className="flex justify-between items-center">
                 <div className="flex-1">
-                  <p className="text-gray-500 text-lg font-bold">{invoice.tag}</p>
+                  <p className="text-gray-500 text-lg font-bold">
+                    {invoice.tag}
+                  </p>
                 </div>
                 <div className="flex-1 text-right ml-3">
                   <p className="text-gray-500 text-lg">
@@ -97,17 +103,25 @@ export default function Invoice() {
                   <p className="text-gray-500 text-lg">{invoice.username}</p>
                 </div>
                 <div className="flex-1 text-right">
-                  <p className="text-gray-500 text-lg">${Number(invoice.value).toFixed(2)}</p>
+                  <p className="text-gray-500 text-lg">
+                    ${Number(invoice.value).toFixed(2)}
+                  </p>
                 </div>
                 <div className="flex-0.8 text-right ml-4">
-                  <Link to={`/invoices/${invoice.id}`} id={invoice.id}>
-                    <button
-                      onClick={() => onClick(invoice.id)}
-                      className={`text-lg ${getStatusClass(invoice.status)}`}
-                    >
+                  {isAdmin ? (
+                    <Link to={`/invoices/${invoice.id}`} id={invoice.id}>
+                      <button
+                        onClick={() => onClick(invoice.id)}
+                        className={`text-lg ${getStatusClass(invoice.status)}`}
+                      >
+                        &#9679; {invoice.status}
+                      </button>
+                    </Link>
+                  ) : (
+                    <p className={`text-lg ${getStatusClass(invoice.status)}`}>
                       &#9679; {invoice.status}
-                    </button>
-                  </Link>
+                    </p>
+                  )}
                 </div>
               </div>
             </li>

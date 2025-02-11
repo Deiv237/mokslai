@@ -5,6 +5,7 @@ import Invoices from "./components/Invoices";
 import { Routes, Route } from "react-router";
 import InvoiceEdit from "./components/InvoiceEdit";
 import CreateInvoice from "./components/CreateInvoice";
+import Navigation from "./components/Navigation";
 // import { Link } from 'react-router'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           path="/invoices"
           element={<Invoices />}
         />
+        
         <Route
           path="/invoices/:id"
           element={<InvoiceEdit/>}
@@ -32,6 +34,9 @@ export default function App() {
           element={<CreateInvoice/>}
           />
       </Routes>
+      <div>
+    <Navigation/>
+    </div>
     </>
   );
 }

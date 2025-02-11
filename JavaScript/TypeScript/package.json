@@ -1,0 +1,17 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "lite-server": "^2.6.1",
+    "live": "^0.1.19",
+    "server": "^1.0.41",
+    "typescript": "^5.7.3"
+  }
+}

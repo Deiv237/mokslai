@@ -5,10 +5,9 @@ const {
   UpdateInvoice,
   DeleteInvoice,
   filterInvoices,
+  getDraftInvoices,
 } = require('../models/invoiceModel');
 const AppError = require('../utils/appError');
-
-console.log("invoicesRoutes.js"); // Log the file call
 
 exports.getAllInvoices = async (req, res, next) => {
   try {
@@ -75,11 +74,54 @@ exports.DeleteInvoice = async (req, res, next) => {
   }
 };
 
+// exports.getFilteredInvoices = async (req, res) => {
+//   try {
+//     const filter = req.query;
 
-exports.getFilteredInvoices = async (req, res, next) => {
-  console.log("getFilteredInvoices"); // Log the function call
+//     const filteredInvoices = await filterInvoices(filter);
+
+//     res.status(200).json({
+//       status: "success",
+//       data: filteredInvoices,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       status: "fail",
+//       message: error.message,
+//     });
+//   }
+// };
+
+exports.GetFilteredInvoices = async (req, res, next) => {
   try {
-    const result = await filterInvoices({ status: req.query.status });
+    const filter = req.query;
+    let page = parseInt(filter.page);
+    let limit = parseInt(filter.limit);
+
+    const offset = (page - 1) * limit;
+
+    if (page < 1 || limit < 1) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid page or limit value',
+      });
+    }
+
+    const filteredInvoices = await filterInvoices(filter, limit, offset);
+
+    res.status(200).json({
+      status: 'success',
+      data: filteredInvoices,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.GetDraftInvoices = async (req, res, next) => {
+  try {
+    const result = await getDraftInvoices();
     res.status(200).json({
       status: 'success',
       data: result,
@@ -87,55 +129,4 @@ exports.getFilteredInvoices = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
-// exports.getFilteredInvoices = async (req, res, next) => {
-//   console.log("getFilteredInvoices called with query:", req.query); // Debugging
-
-//   try {
-//     const filters = {
-//       status: req.query.status ? req.query.status.split(",") : [], // Convert CSV string to array
-//       username: req.query.username,
-//       startDate: req.query.startDate,
-//       endDate: req.query.endDate,
-//     };
-
-//     const result = await filterInvoices(filters);
-
-//     res.status(200).json({
-//       status: "success",
-//       data: result,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.getFilteredInvoices = async (req, res, next) => {
-//   try {
-//     const filter = req.query;
-
-//     if (Object.keys(filter).length === 0) {
-//       const invoices = await getAllInvoices();
-//       res.status(200).json({
-//         status: 'success',
-//         data: invoices,
-//       });
-//     } else {
-//       const filteredInvoices = await filterInvoices(filter);
-
-//       if (filteredInvoices.length === 0) {
-//         res.status(404).json({
-//           status: 'fail',
-//           message: 'No invoices found with the specified status',
-//         });
-//       } else {
-//         res.status(200).json({
-//           status: 'success',
-//           data: filteredInvoices,
-//         });
-//       }
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+};

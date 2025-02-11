@@ -44,34 +44,40 @@ exports.DeleteInvoice = async (id) => {
     `;
     return result;
 };
-exports.filterInvoices = async (filter) => {
-  console.log(filter.status); // Log the filter.status value
-    console.log("filter");
-  const query = sql`
-    SELECT * FROM invoices
-    WHERE status = 'Draft'
-  `;
-  console.log(query); // Log the SQL query
 
-  const result = await query;
+// exports.filterInvoices = async (filter, limit, offset) => {
+//   // const validDirection = ["ASC", "DESC"];
+//   // const sortValue = filter.sort.toUpperCase();
+//   // const sortDirection = validDirection.includes(filter.sort.toUpperCase())?sortValue:"ASC"
+//   const invoices = await sql`
+//       SELECT *
+//       FROM invoices
+//       WHERE
+//       status = ${filter.status} 
+//       ${
+//         limit !== undefined && offset !== undefined
+//           ? sql`limit ${limit} offset ${offset}`
+//           : sql``
+//       }`;
+//       // ORDER BY books.author ${sql.unsafe(sortDirection)}
+//   return invoices;
+// };
+
+exports.filterInvoices = async (filter, limit, offset) => {
+  const invoices = await sql`
+      SELECT *
+      FROM invoices
+      WHERE
+      status = ${filter.status} 
+      ${
+        limit !== undefined && offset !== undefined
+          ? sql`limit ${limit} offset ${offset}`
+          : sql``
+      }`;
+  return invoices;
+};
+
+exports.getDraftInvoices = async () => {
+  const result = await sql`SELECT * FROM invoices WHERE tag = '#OF4M3'`;
   return result;
 };
-// exports.filterInvoices = async (filter) => {
-//   console.log("Filter received:", filter); // Debugging
-
-//   let query = sql`SELECT * FROM invoices WHERE 1=1`; // Start with a base query
-
-//   if (filter.status && filter.status.length > 0) {
-//     query = sql`${query} AND status IN (${sql(filter.status)})`; // Allow multiple statuses
-//   }
-//   if (filter.username) {
-//     query = sql`${query} AND username = ${filter.username}`; // Filter by username
-//   }
-//   if (filter.startDate && filter.endDate) {
-//     query = sql`${query} AND date BETWEEN ${filter.startDate} AND ${filter.endDate}`; // Filter by date range
-//   }
-
-//   console.log("Generated SQL Query:", query); // Debugging
-//   const result = await query;
-//   return result;
-// };

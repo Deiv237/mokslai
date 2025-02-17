@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 import "./tailwind.css";
+// import "../index.css";
+// import "../App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

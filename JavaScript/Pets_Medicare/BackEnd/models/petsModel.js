@@ -45,39 +45,66 @@ exports.Deletepet = async (id) => {
     return result;
 };
 
-// exports.filterInvoices = async (filter, limit, offset) => {
-//   // const validDirection = ["ASC", "DESC"];
-//   // const sortValue = filter.sort.toUpperCase();
-//   // const sortDirection = validDirection.includes(filter.sort.toUpperCase())?sortValue:"ASC"
-//   const invoices = await sql`
-//       SELECT *
-//       FROM invoices
-//       WHERE
-//       status = ${filter.status} 
-//       ${
-//         limit !== undefined && offset !== undefined
-//           ? sql`limit ${limit} offset ${offset}`
-//           : sql``
-//       }`;
-//       // ORDER BY books.author ${sql.unsafe(sortDirection)}
-//   return invoices;
-// };
+// class Pet {
+//   constructor(id, name, owner, date, time, userId) {
+//     this.id = id;
+//     this.name = name;
+//     this.owner = owner;
+//     this.date = date;
+//     this.time = time;
+//     this.userId = userId;
+//   }
 
-exports.filterpets = async (filter, limit, offset) => {
-  const invoices = await sql`
-      SELECT *
-      FROM pets
-      WHERE
-      status = ${filter.status} 
-      ${
-        limit !== undefined && offset !== undefined
-          ? sql`limit ${limit} offset ${offset}`
-          : sql``
-      }`;
-  return pets;
+//   static async findAll(options) {
+//     const pets = await getAllpets(); // Call the getAllpets function from the same file
+
+//     // Apply filter and sorting
+//     const filteredPets = pets.filter(pet => {
+//       if (options.where) {
+//         for (const key in options.where) {
+//           if (pet[key] !== options.where[key]) return false;
+//         }
+//       }
+//       return true;
+//     });
+
+//     if (options.order) {
+//       filteredPets.sort((a, b) => {
+//         const sortField = options.order[0][0];
+//         const sortOrder = options.order[0][1];
+//         if (sortOrder === "desc") return b[sortField] - a[sortField];
+//         return a[sortField] - b[sortField];
+//       });
+//     }
+
+//     return filteredPets.map(pet => new Pet(pet.id, pet.name, pet.owner, pet.date, pet.time, pet.userId));
+//   }
+// }
+
+// exports.Pet = Pet;
+
+exports.filterPets = async (sort, sortOrder) => {
+  const validSortColumns = ['time', 'date'];
+  const validSortOrders = ['ASC', 'DESC'];
+
+  if (!validSortColumns.includes(sort) || !validSortOrders.includes(sortOrder.toUpperCase())) {
+    throw new Error("Invalid sort parameters");
+  }
+
+  const query = {
+    text: `
+      SELECT * FROM pets 
+      ORDER BY 
+        TO_DATE(date, 'YYYY-MM-DD') ${sortOrder}, 
+        CASE 
+          WHEN time ~* 'AM|PM' THEN TO_TIMESTAMP(time, 'HH:MI PM')::TIME
+          ELSE time::TIME 
+        END ${sortOrder}
+    `,
+  };
+
+  const { rows } = await db.query(query);
+  return rows;
 };
 
-exports.getDraftpets = async () => {
-  const result = await sql`SELECT * FROM pets WHERE tag = '#OF4M3'`;
-  return result;
-};
+

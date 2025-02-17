@@ -4,9 +4,9 @@ const {
   createpet,
   Updatepet,
   Deletepet,
-  filterpets,
-  getDraftpets,
+  FilterPets,
 } = require('../models/petsModel');
+// const Pet = require('../models/petsModel').Pet;
 const AppError = require('../utils/appError');
 
 exports.getAllPets = async (req, res, next) => {
@@ -74,59 +74,50 @@ exports.DeletePet = async (req, res, next) => {
   }
 };
 
-// exports.getFilteredInvoices = async (req, res) => {
+exports.searchClients = async (req, res) => {
+  try {
+    const sort = req.query.sort;
+    const sortOrder = req.query.sortOrder;
+    const pets = await FilterPets(sort, sortOrder);
+    res.status(200).json(pets);
+  } catch (err) {
+    console.error("Error searching pets:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// exports.getPets = async (req, res) => {
 //   try {
-//     const filter = req.query;
+//     const { search, name, date, time, sortField = "date", sortOrder = "asc" } =
+//       req.query;
+//     const { id } = req.params;
 
-//     const filteredInvoices = await filterInvoices(filter);
+//     // Create filter object
+//     let filter = { owner: id };
+//     if (search) {
+//       filter.$or = [
+//         { name: { $regex: search, $options: "i" } },
+//         { owner: { $regex: search, $options: "i" } },
+//         { description: { $regex: search, $options: "i" } },
+//       ];
+//     }
+//     if (name) filter.name = new RegExp(name, "i"); // Case-insensitive name search
+//     if (date) filter.date = new Date(date);
+//     if (time) filter.time = time;
 
-//     res.status(200).json({
-//       status: "success",
-//       data: filteredInvoices,
+//     // Sorting
+//     const sortOptions = {};
+//     if (["name", "date", "time"].includes(sortField)) {
+//       sortOptions[sortField] = sortOrder === "desc" ? -1 : 1;
+//     }
+
+//     const pets = await Pet.findAll({
+//       where: filter,
+//       order: [[sortField, sortOrder]],
 //     });
+
+//     res.status(200).json({ status: "success", data: pets });
 //   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({
-//       status: "fail",
-//       message: error.message,
-//     });
+//     res.status(500).json({ status: "error", message: error.message });
 //   }
 // };
-
-exports.GetFilteredPets = async (req, res, next) => {
-  try {
-    const filter = req.query;
-    let page = parseInt(filter.page);
-    let limit = parseInt(filter.limit);
-
-    const offset = (page - 1) * limit;
-
-    if (page < 1 || limit < 1) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Invalid page or limit value',
-      });
-    }
-
-    const filteredpets = await filterpets(filter, limit, offset);
-
-    res.status(200).json({
-      status: 'success',
-      data: filteredpets,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.GetDraftPets = async (req, res, next) => {
-  try {
-    const result = await getDraftpets();
-    res.status(200).json({
-      status: 'success',
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};

@@ -1,0 +1,138 @@
+/* login and signup forms */
+
+.login-form,
+.signup-form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2,
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form label,
+.signup-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login-form input,
+.signup-form input {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form input:focus,
+.signup-form input:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form button,
+.signup-form button {
+  width: 100%;
+  height: 40px;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-form button:hover,
+.signup-form button:hover {
+  background-color: #3e8e41;
+}
+
+.login-form a,
+.signup-form a {
+  text-decoration: none;
+  color: #4CAF50;
+}
+
+.login-form a:hover,
+.signup-form a:hover {
+  color: #3e8e41;
+}
+
+.signup-form p {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+.signup-form p a {
+  text-decoration: none;
+  color: #4CAF50;
+  transition: color 0.2s ease;
+}
+
+.signup-form p a:hover {
+  color: #3e8e41;
+}
+
+.pet-filter-container {
+  border: none;
+  /* background-color: #f7f7f7; */
+  padding: 10px;
+  /* border: 1px solid #ddd; */
+  /* border-radius: 10px; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.filter-input {
+  width: 20%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.filter-select {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.filter-button {
+  width: 30%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #3e8e41;
+}
+
+/* error message */
+
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 10px;
+}

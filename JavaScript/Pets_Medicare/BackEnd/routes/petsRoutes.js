@@ -5,6 +5,8 @@ const {
   createPet,
   UpdatePet,
   DeletePet,
+  getPets,
+  searchClients,
 } = require('../Controllers/petsController');
 const validate = require('../validators/validate');
 const { protect, allowAccessTo } = require('../Controllers/authController');
@@ -12,6 +14,7 @@ const { protect, allowAccessTo } = require('../Controllers/authController');
 const router = express.Router();
 
 router.route(`/`).get(getAllPets).post(createPet);
+router.route(`/search`).get(searchClients);
 router
   .route(`/:id`)
   .get(getPetById)

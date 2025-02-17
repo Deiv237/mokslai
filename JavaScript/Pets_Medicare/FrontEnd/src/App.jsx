@@ -4,6 +4,7 @@ import SignupForm from "./components/SignupForm";
 import Pets from "./components/Pets";
 import { Routes, Route } from "react-router";
 import EditPet from "./components/EditPet";
+import PetFilter from "./components/PetFilter";
 // import { UserContextProvider } from "./contexts/UserContext";
 // import CreateInvoice from "./components/CreateInvoice";
 // import { Link } from 'react-router'
@@ -29,6 +30,9 @@ export default function App() {
             path="/edit-pet/:id"
             element={<EditPet />}
           />
+          <Route
+          path="/filter"
+          element={<PetFilter/>}/>
           {/* Route for editing a pet */}
           {/* <Route
           path="/invoices/:id"

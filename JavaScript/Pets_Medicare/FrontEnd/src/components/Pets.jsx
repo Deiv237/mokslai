@@ -1,9 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import CreatePets from "./CreatePets";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdClose, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router"; // For navigation to edit pet page
 import { UserContext } from "../contexts/UserContext"; // Import UserContext
+import PetFilter from "./PetFilter";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,7 +35,7 @@ export default function Pet() {
   }, []);
 
   // Filter pets based on the user role
-  const filteredPets = isAdmin ? pets : pets.filter((pet) => pet.isOwner);
+  const filteredPets = isAdmin ? pets : pets.filter((pet) => pet.owner.id === user.id);
 
   // Delete Pet
   const deletePet = async (id) => {
@@ -53,10 +55,11 @@ export default function Pet() {
   return (
     <div className="bg-white min-h-screen p-5">
       {error && <p className="text-red-500">{error}</p>}
-
+  
       {/* Header with Toggle Button */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-purple-700">Pets Medicare</h1>
+        <PetFilter setPets={setPets} />
         <button
           className="bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded flex items-center"
           onClick={() => {
@@ -67,10 +70,10 @@ export default function Pet() {
           <span>{showForm ? "Close Form" : "Add Appointment"}</span>
         </button>
       </div>
-
+  
       {/* Create Form */}
       {showForm && <CreatePets onClose={() => setShowForm(false)} />}
-
+  
       {/* Appointment List */}
       <ul className="w-full max-w-3xl mx-auto">
         {filteredPets.length > 0 ? (
@@ -81,13 +84,15 @@ export default function Pet() {
                   <p className="text-xl font-bold text-purple-700">{pet.name}</p>
                   <p className="text-gray-700"><strong>Owner:</strong> {pet.owner}</p>
                   <p className="text-gray-600">{pet.description}</p>
+                  {/* <p>Created by: {user.username}</p> */}
+                  {/* {console.log(user)} */}
                 </div>
                 <div className="text-right text-gray-500">
                   <p>{new Date(pet.date).toLocaleDateString()}</p>
                   <p>{pet.time}</p>
                 </div>
               </div>
-
+  
               {/* Actions: Only Show Delete/Edit for Allowed Users */}
               <div className="flex justify-end mt-2 space-x-3">
                 {(isAdmin || pet.isOwner) && (

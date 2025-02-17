@@ -3,21 +3,28 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { CiCirclePlus } from "react-icons/ci";
+import moment from "moment";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function CreatePets() {
+export default function CreatePets({ onClose }) {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext); // Access the current user from context
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${API_URL}/pets`, data, {
+      const formattedTime = moment(data.time, "HH:mm").format("hh:mm A");
+      const postData = { ...data, time: formattedTime, owner: user.id }; // Include the current user's ID
+      const response = await axios.post(`${API_URL}/pets`, postData, {
         withCredentials: true,
       });
       if (response.data.status === "success") {
         navigate("/pets"); // Redirect to appointment list
+        onClose(); // Close the form
       } else {
         setError("Unexpected response format.");
       }
@@ -41,22 +48,22 @@ export default function CreatePets() {
         <div>
           <label className="block text-gray-700 font-bold mb-1">Pet Name</label>
           <input
-  className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
-  type="text"
-  placeholder="Pet's Name"
-  {...register("name", { required: true })}
-/>
+            className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
+            type="text"
+            placeholder="Pet's Name"
+            {...register("name", { required: true })}
+          />
         </div>
 
         {/* Pet Owner */}
         <div>
           <label className="block text-gray-700 font-bold mb-1">Pet Owner</label>
           <input
-  className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
-  type="text"
-  placeholder="Owner's Name"
-  {...register("owner", { required: true })}
-/>
+            className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
+            type="text"
+            placeholder="Owner's Name"
+            {...register("owner", { required: true })}
+          />
         </div>
 
         {/* Date & Time */}
@@ -64,18 +71,18 @@ export default function CreatePets() {
           <div className="w-1/2">
             <label className="block text-gray-700 font-bold mb-1">Date</label>
             <input
-  className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
-  type="date"
-  {...register("date", { required: true })}
-/>
+              className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
+              type="date"
+              {...register("date", { required: true })}
+            />
           </div>
           <div className="w-1/2">
             <label className="block text-gray-700 font-bold mb-1">Time</label>
             <input
-  className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
-  type="time"
-  {...register("time", { required: true })}
-/>
+              className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
+              type="time"
+              {...register("time", { required: true })}
+            />
           </div>
         </div>
 
@@ -83,10 +90,10 @@ export default function CreatePets() {
         <div>
           <label className="block text-gray-700 font-bold mb-1">Apt. Notes</label>
           <textarea
-  className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
-  placeholder="Appointment Notes"
-  {...register("description")}
-/>
+            className="w-full px-3 py-2 border rounded text-gray-400 placeholder-gray-400"
+            placeholder="Appointment Notes"
+            {...register("description")}
+          />
         </div>
 
         {/* Error Message */}

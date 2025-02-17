@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 import "./tailwind.css";
+// import "./SignLogin.css";
+// import "../index.css";
+// import "../App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,6 +14,7 @@ export default function SignupForm() {
   const [error, setError] = useState(null);
   console.log(error);
   const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,6 +35,7 @@ export default function SignupForm() {
         }
       );
       setUser(response.data);
+      navigate("/pets");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -119,9 +124,9 @@ export default function SignupForm() {
       </div>
 
       <button type="submit">Sign Up</button>
-      <button>
+      <p>
         <Link to="/login">Login</Link>
-      </button>
+      </p>
     </form>
   );
 }

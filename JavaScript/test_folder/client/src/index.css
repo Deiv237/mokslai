@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+#navbar-Navlink:focus {
+    background: linear-gradient(to right, #1F8EBE, #440495, #440495, #B102CD);
+    color: #ffffff;
+    border-radius: 16px;
+}
+#navbar-logout:hover {
+    background: linear-gradient(to right, #1F8EBE, #440495, #440495, #B102CD);
+    color: #ffffff;
+    border-radius: 16px;
+}
